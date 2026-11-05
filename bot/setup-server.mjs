@@ -245,7 +245,7 @@ async function main() {
       embeds: [
         {
           title: 'Welcome to Rayx Acces',
-          color: 0xf5f5f5,
+          color: 0x5865f2,
           description:
             `**Rayx Acces** - licenses, HWID management and support in one place.\n\n` +
             `**Getting access**\n` +
@@ -255,6 +255,9 @@ async function main() {
             `**Already a member?**\n` +
             `Log in to the panel: ${site}\n` +
             `Username + password + your 6-digit authenticator code.`,
+          fields: [
+            { name: 'Links', value: `[Panel](${site}) · [Support](<#${ticket.id}>) · [Changelogs](<#${changelogs.id}>)`, inline: false },
+          ],
           footer: { text: 'Rayx Acces' },
         },
       ],
@@ -268,7 +271,7 @@ async function main() {
       embeds: [
         {
           title: 'Server Rules',
-          color: 0xf5f5f5,
+          color: 0x5865f2,
           description:
             '**1.** Never share your account, license or HWID with anyone.\n' +
             '**2.** No advertising, spam or unsolicited DMs to members.\n' +
@@ -288,7 +291,7 @@ async function main() {
       embeds: [
         {
           title: 'Plans & Access',
-          color: 0xf5f5f5,
+          color: 0x5865f2,
           description:
             '**Month** - 30 days\n' +
             '**3 Months** - 90 days\n' +
@@ -299,6 +302,9 @@ async function main() {
             '• your HWID / UUID\n' +
             '• the plan you want\n\n' +
             `Members can check their remaining time in the panel: ${site}`,
+          fields: [
+            { name: 'Links', value: `[Panel](${site}) · [Support](<#${ticket.id}>)`, inline: false },
+          ],
           footer: { text: 'Rayx Acces' },
         },
       ],
@@ -312,8 +318,11 @@ async function main() {
       embeds: [
         {
           title: 'Rayx Acces is live',
-          color: 0xf5f5f5,
+          color: 0x5865f2,
           description: `Panel: ${site}\nSupport: <#${ticket.id}>\nChangelogs: <#${changelogs.id}>`,
+          fields: [
+            { name: 'Links', value: `[Panel](${site}) · [Support](<#${ticket.id}>) · [Changelogs](<#${changelogs.id}>)`, inline: false },
+          ],
           footer: { text: 'Rayx Acces' },
         },
       ],
@@ -327,7 +336,7 @@ async function main() {
       embeds: [
         {
           title: 'Changelogs',
-          color: 0xf5f5f5,
+          color: 0x5865f2,
           description: 'New updates are posted here. Staff can also pull the latest list with `/changelogs`.',
           footer: { text: 'Rayx Acces' },
         },
