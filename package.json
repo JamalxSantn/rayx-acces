@@ -19,6 +19,7 @@
     "build": "npm run build -w client",
     "start": "npm run start -w server",
     "start:all": "concurrently -n SERVER,BOT -c cyan,yellow \"npm:start\" \"npm:bot\"",
+    "start:free": "concurrently -n API,BOT -c cyan,yellow --kill-others \"npm:start\" \"npm:bot\"",
     "postinstall": "echo Rayx Acces deps installed. Run: npm run dev"
   },
   "devDependencies": {

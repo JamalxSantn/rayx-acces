@@ -1,0 +1,106 @@
+# Render Blueprint for Rayx Acces - STARTER PLAN (two services + disks)
+# Rename this file to render.yaml (or copy its content into render.yaml) if you
+# want persistent SQLite + bot state. ~$14.50/mo in Frankfurt.
+#
+#   web service : API + built React panel      -> https://<host>
+#   worker      : Discord bot (tickets, logs)  -> no public URL
+#
+# Docs: https://render.com/docs/blueprint-spec
+
+services:
+  # ---------------------------------------------------------------- website --
+  - type: web
+    name: rayx-acces-web
+    runtime: node
+    plan: starter
+    region: frankfurt
+    branch: main
+    autoDeploy: true
+    buildCommand: npm ci --include=dev && npm run build
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_VERSION
+        value: 20.19.0
+      - key: NODE_ENV
+        value: production
+      # SQLite lives on the mounted disk, not on the ephemeral filesystem.
+      - key: DATA_DIR
+        value: /var/data
+      - key: TOTP_ISSUER
+        value: Rayx Acces
+      # Generated once by Render, stays stable across deploys.
+      - key: JWT_SECRET
+        generateValue: true
+      # Type the same value here and on the bot service.
+      - key: BOT_API_KEY
+        sync: false
+      # Hidden owner password on the login form - type your own.
+      - key: SECRET_PHRASE
+        sync: false
+    disk:
+      name: rayx-data
+      mountPath: /var/data
+      sizeGB: 1
+
+  # ------------------------------------------------------------------- bot --
+  - type: worker
+    name: rayx-acces-bot
+    runtime: node
+    plan: starter
+    region: frankfurt
+    branch: main
+    autoDeploy: true
+    buildCommand: npm ci --omit=dev
+    startCommand: npm run bot
+    envVars:
+      - key: NODE_VERSION
+        value: 20.19.0
+      - key: NODE_ENV
+        value: production
+      - key: BOT_TOKEN
+        sync: false
+      - key: CLIENT_ID
+        value: "1549861961196376115"
+      - key: MAIN_GUILD_ID
+        value: "1567899980340133991"
+      - key: TICKET_GUILD_ID
+        value: "1567899980340133991"
+      - key: STAFF_ROLE_ID
+        value: "1567902415649374308"
+      - key: OPEN_TICKETS_CATEGORY_ID
+        value: "1567902437325414492"
+      - key: CLOSED_TICKETS_CATEGORY_ID
+        value: "1567902440504696902"
+      - key: WEB_LOGS_CHANNEL_ID
+        value: "1567902691873783981"
+      - key: BOT_LOGS_CHANNEL_ID
+        value: "1567902695006806026"
+      - key: TICKET_LOGS_CHANNEL_ID
+        value: "1567902697741623296"
+      - key: TICKET_PANEL_CHANNEL_ID
+        value: "1567902451669925928"
+      - key: ANNOUNCEMENTS_CHANNEL_ID
+        value: "1567902449057013770"
+      - key: CHANGELOGS_CHANNEL_ID
+        value: "1567902681572450484"
+      # Must equal BOT_API_KEY on the web service.
+      - key: BOT_API_KEY
+        sync: false
+      # Render fills the host of the web service; the code adds https://.
+      - key: API_BASE_URL
+        fromService:
+          type: web
+          name: rayx-acces-web
+          property: host
+      - key: SITE_URL
+        fromService:
+          type: web
+          name: rayx-acces-web
+          property: host
+      - key: BOT_STATE_DIR
+        value: /var/data
+    disk:
+      name: rayx-bot-data
+      mountPath: /var/data
+      sizeGB: 1

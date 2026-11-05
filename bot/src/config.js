@@ -57,11 +57,22 @@ const config = {
     announcements: pick(['ANNOUNCEMENTS_CHANNEL_ID'], file.channels?.announcements || ''),
     changelogs: pick(['CHANGELOGS_CHANNEL_ID'], file.channels?.changelogs || ''),
   },
-  api: {
-    baseUrl: url(pick(['API_BASE_URL', 'API_URL'], file.api?.baseUrl), 'http://localhost:3001'),
-    key: pick(['BOT_API_KEY'], file.api?.key || ''),
-  },
-  siteUrl: url(pick(['SITE_URL', 'PUBLIC_URL'], file.siteUrl), pick(['API_BASE_URL', 'API_URL'], file.api?.baseUrl)),
+  api: (() => {
+    // Single-service mode (free Render plan): the bot runs inside the web
+    // service, so talk to the API over loopback instead of the public URL.
+    const port = env.PORT || '3001';
+    const internal = /^(1|true|yes|on)$/i.test(String(env.API_INTERNAL || ''));
+    const renderUrl = (env.RENDER_EXTERNAL_URL || '').trim();
+    const fallback = internal || !renderUrl ? `http://127.0.0.1:${port}` : renderUrl;
+    return {
+      baseUrl: url(pick(['API_BASE_URL', 'API_URL'], file.api?.baseUrl || fallback)),
+      key: pick(['BOT_API_KEY'], file.api?.key || ''),
+    };
+  })(),
+  siteUrl: url(
+    pick(['SITE_URL', 'PUBLIC_URL'], file.siteUrl || env.RENDER_EXTERNAL_URL || ''),
+    pick(['API_BASE_URL', 'API_URL'], file.api?.baseUrl)
+  ),
   support: { ...(file.support || {}) },
 };
 
