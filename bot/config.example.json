@@ -1,0 +1,30 @@
+{
+  "token": "YOUR_DISCORD_BOT_TOKEN",
+  "clientId": "YOUR_BOT_APPLICATION_ID",
+  "mainGuildId": "MAIN_SERVER_ID",
+  "ticketGuildId": "MAIN_SERVER_ID_OR_TICKET_SERVER_ID",
+  "staffRoleId": "",
+  "categories": {
+    "openTickets": "",
+    "closedTickets": ""
+  },
+  "channels": {
+    "webLogs": "",
+    "botLogs": "",
+    "ticketLogs": "",
+    "ticketPanel": "",
+    "announcements": "",
+    "changelogs": ""
+  },
+  "api": {
+    "baseUrl": "http://localhost:3001",
+    "key": "same-as-server-BOT_API_KEY"
+  },
+  "siteUrl": "http://localhost:3001",
+  "support": {
+    "title": "Rayx Acces Support",
+    "description": "Need help with access, a license or your HWID? Open a private ticket below - staff replies here and in your DMs.",
+    "color": 15790320,
+    "buttonLabel": "Create Ticket"
+  }
+}

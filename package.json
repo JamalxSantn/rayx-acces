@@ -1,0 +1,27 @@
+{
+  "name": "rayx-acces",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Rayx Acces - modern authentication & license management dashboard",
+  "workspaces": [
+    "server",
+    "client",
+    "bot"
+  ],
+  "scripts": {
+    "dev": "concurrently -n SERVER,CLIENT -c cyan,magenta \"npm:dev:server\" \"npm:dev:client\"",
+    "dev:all": "concurrently -n SERVER,CLIENT,BOT -c cyan,magenta,yellow \"npm:dev:server\" \"npm:dev:client\" \"npm:dev:bot\"",
+    "dev:server": "npm run dev -w server",
+    "dev:client": "npm run dev -w client",
+    "dev:bot": "npm run dev -w bot",
+    "bot": "npm run start -w bot",
+    "bot:deploy": "npm run deploy -w bot",
+    "build": "npm run build -w client",
+    "start": "npm run start -w server",
+    "start:all": "concurrently -n SERVER,BOT -c cyan,yellow \"npm:start\" \"npm:bot\"",
+    "postinstall": "echo Rayx Acces deps installed. Run: npm run dev"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0"
+  }
+}

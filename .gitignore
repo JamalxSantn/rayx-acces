@@ -1,0 +1,20 @@
+# dependencies
+node_modules/
+
+# build output (Render builds it)
+client/dist/
+
+# live data / secrets - never commit
+server/data/
+bot/data/
+bot/config.json
+server/.env
+.env
+logs/
+*.log
+
+# os / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

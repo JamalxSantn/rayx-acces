@@ -1,0 +1,19 @@
+{
+  "name": "rayx-acces-bot",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Rayx Acces Discord bot - whitelist management, tickets and log mirroring",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js",
+    "deploy": "node src/deploy.js",
+    "setup": "node setup-server.mjs"
+  },
+  "dependencies": {
+    "@discordjs/voice": "^0.18.0",
+    "axios": "^1.7.7",
+    "discord.js": "^14.16.3"
+  }
+}
