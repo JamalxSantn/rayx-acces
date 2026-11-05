@@ -129,7 +129,18 @@ async function openTicket(interaction, client) {
       topic: `Ticket owner: ${user.tag} (${user.id})`,
     });
   } catch {
-    return interaction.editReply({ content: 'I could not create your ticket channel. Please contact an administrator.' });
+    // A stale/deleted category id must not block ticket creation — retry root-level.
+    if (!config.categories?.openTickets) {
+      return interaction.editReply({ content: 'I could not create your ticket channel. Please contact an administrator.' });
+    }
+    channel = await guild.channels
+      .create({
+        name: safeName,
+        type: ChannelType.GuildText,
+        topic: `Ticket owner: ${user.tag} (${user.id})`,
+      })
+      .catch(() => null);
+    if (!channel) return interaction.editReply({ content: 'I could not create your ticket channel. Please contact an administrator.' });
   }
 
   store.openTicket(user.id, { channelId: channel.id, username: user.username, tag: user.tag, createdAt: Date.now() });
